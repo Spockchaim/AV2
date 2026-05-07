@@ -114,6 +114,15 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           background-color: var(--bg-app);
         }
 
+        @media (max-width: 768px) {
+          .layout-container {
+            flex-direction: column;
+            height: auto;
+            min-height: 100vh;
+            overflow: visible;
+          }
+        }
+
         .sidebar {
           width: 240px;
           border-right: 3px solid var(--border-color);

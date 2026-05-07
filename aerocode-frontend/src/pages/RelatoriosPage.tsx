@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
 import { useData } from '../context/DataContext';
-import { FileBarChart, Download, FileText, FileJson, CheckCircle } from 'lucide-react';
+import { FileBarChart, Download, FileText, CheckCircle, UserCheck, Eye, X } from 'lucide-react';
 
 export const RelatoriosPage = () => {
-  const { aircrafts, parts, generateReport } = useData();
+  const { 
+    aircrafts, 
+    parts,
+    generateReport, 
+    generateStockReport, 
+    generateCollaboratorReport,
+    previewReport,
+    previewStockReport,
+    previewCollaboratorReport
+  } = useData();
+  
   const [selectedAircraftCode, setSelectedAircraftCode] = useState('');
   const [client, setClient] = useState('');
   const [date, setDate] = useState('');
   const [done, setDone] = useState(false);
+  const [previewContent, setPreviewContent] = useState<string | null>(null);
 
   const handleGenerate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,6 +26,15 @@ export const RelatoriosPage = () => {
       generateReport(selectedAircraftCode, client, date);
       setDone(true);
       setTimeout(() => setDone(false), 3000);
+    }
+  };
+
+  const handlePreview = () => {
+    if (selectedAircraftCode && client && date) {
+      const content = previewReport(selectedAircraftCode, client, date);
+      setPreviewContent(content);
+    } else {
+      alert("Preencha todos os campos para visualizar o relatorio.");
     }
   };
 
@@ -74,9 +94,16 @@ export const RelatoriosPage = () => {
             <label className="label">DATA DE ENTREGA</label>
             <input type="text" value={date} onChange={e => setDate(e.target.value)} placeholder="DD/MM/AAAA" required style={{ marginTop: '10px' }} />
           </div>
-          <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-            <button type="submit" style={{ width: '100%', backgroundColor: '#000', color: '#fff', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-              {done ? <><CheckCircle size={18} /> RELATÓRIO SALVO</> : <><Download size={18} /> GERAR RELATÓRIO TXT</>}
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: '10px' }}>
+            <button 
+              type="button" 
+              onClick={handlePreview}
+              style={{ flex: 1, backgroundColor: '#fff', color: '#000', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', border: '2px solid #000' }}
+            >
+              <Eye size={18} /> VISUALIZAR
+            </button>
+            <button type="submit" style={{ flex: 1, backgroundColor: '#000', color: '#fff', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+              {done ? <><CheckCircle size={18} /> RELATÓRIO SALVO</> : <><Download size={18} /> GERAR TXT</>}
             </button>
           </div>
         </form>
@@ -88,35 +115,117 @@ export const RelatoriosPage = () => {
         {done && <div style={{ marginTop: '15px', fontSize: '11px', color: '#166534', fontWeight: 'bold' }}>O arquivo foi gerado e salvo na pasta 'relatorios/' no servidor de dados.</div>}
       </div>
 
-      <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '20px' }}>OUTROS RELATÓRIOS</h3>
+      <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '20px' }}>RELATÓRIOS DO SISTEMA</h3>
       
       <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
         <div className="box flex-mobile-column" style={{ justifyContent: 'space-between', alignItems: 'center', padding: '20px', gap: '20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             <FileText size={24} />
             <div>
-              <div style={{ fontWeight: 'bold' }}>Inventário Consolidado de Peças</div>
-              <div style={{ fontSize: '12px', color: '#666' }}>Lista completa de peças, fornecedores e status atual.</div>
+              <div style={{ fontWeight: 'bold' }}>Peças em Estoque</div>
+              <div style={{ fontSize: '12px', color: '#666' }}>Lista completa de peças, fornecedores e status atual no inventário.</div>
             </div>
           </div>
-          <button style={{ display: 'flex', alignItems: 'center', gap: '8px', width: 'auto' }}>
-            <Download size={16} /> GERAR .TXT
-          </button>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button 
+              onClick={() => setPreviewContent(previewStockReport())}
+              style={{ display: 'flex', alignItems: 'center', gap: '8px', width: 'auto', backgroundColor: '#fff', border: '1px solid #000', color: '#000' }}
+            >
+              <Eye size={16} /> VISUALIZAR
+            </button>
+            <button 
+              onClick={() => generateStockReport()}
+              style={{ display: 'flex', alignItems: 'center', gap: '8px', width: 'auto' }}
+            >
+              <Download size={16} /> GERAR .TXT
+            </button>
+          </div>
         </div>
 
         <div className="box flex-mobile-column" style={{ justifyContent: 'space-between', alignItems: 'center', padding: '20px', gap: '20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-            <FileJson size={24} />
+            <UserCheck size={24} />
             <div>
-              <div style={{ fontWeight: 'bold' }}>Laudos de Qualidade (Auditoria)</div>
-              <div style={{ fontSize: '12px', color: '#666' }}>Exportação de todos os testes realizados para fins de auditoria.</div>
+              <div style={{ fontWeight: 'bold' }}>Status e Histórico dos Colaboradores</div>
+              <div style={{ fontSize: '12px', color: '#666' }}>Registro de atividades e participações de cada membro da equipe em projetos.</div>
             </div>
           </div>
-          <button style={{ display: 'flex', alignItems: 'center', gap: '8px', width: 'auto' }}>
-            <Download size={16} /> GERAR .TXT
-          </button>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button 
+              onClick={() => setPreviewContent(previewCollaboratorReport())}
+              style={{ display: 'flex', alignItems: 'center', gap: '8px', width: 'auto', backgroundColor: '#fff', border: '1px solid #000', color: '#000' }}
+            >
+              <Eye size={16} /> VISUALIZAR
+            </button>
+            <button 
+              onClick={() => generateCollaboratorReport()}
+              style={{ display: 'flex', alignItems: 'center', gap: '8px', width: 'auto' }}
+            >
+              <Download size={16} /> GERAR .TXT
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* MODAL DE VISUALIZAÇÃO */}
+      {previewContent && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.8)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: '20px'
+        }}>
+          <div className="box" style={{ 
+            backgroundColor: '#fff', 
+            width: '100%', 
+            maxWidth: '800px', 
+            maxHeight: '90vh', 
+            overflow: 'auto',
+            position: 'relative',
+            padding: '40px'
+          }}>
+            <button 
+              onClick={() => setPreviewContent(null)}
+              style={{ 
+                position: 'absolute', 
+                top: '10px', 
+                right: '10px', 
+                backgroundColor: 'transparent', 
+                border: 'none', 
+                color: '#000',
+                cursor: 'pointer',
+                width: 'auto',
+                padding: '5px'
+              }}
+            >
+              <X size={24} />
+            </button>
+            <h3 style={{ marginBottom: '20px', borderBottom: '2px solid #000', paddingBottom: '10px' }}>PRÉVIA DO RELATÓRIO</h3>
+            <pre style={{ 
+              backgroundColor: '#f1f5f9', 
+              padding: '20px', 
+              borderRadius: '4px', 
+              whiteSpace: 'pre-wrap', 
+              fontFamily: 'monospace',
+              fontSize: '13px',
+              border: '1px solid #cbd5e1',
+              lineHeight: '1.5'
+            }}>
+              {previewContent}
+            </pre>
+            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
+              <button onClick={() => setPreviewContent(null)} style={{ width: 'auto', padding: '10px 30px' }}>FECHAR</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

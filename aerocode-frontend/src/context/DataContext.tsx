@@ -66,6 +66,11 @@ interface DataContextType {
   finishStep: (codigoAero: string, nomeEtapa: string) => void;
   addTestToAircraft: (codigoAero: string, tipo: TipoTeste, resultado: ResultadoTeste) => void;
   generateReport: (codigoAero: string, cliente: string, data: string) => void;
+  generateStockReport: () => void;
+  generateCollaboratorReport: () => void;
+  previewReport: (codigoAero: string, cliente: string, data: string) => string;
+  previewStockReport: () => string;
+  previewCollaboratorReport: () => string;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -229,6 +234,26 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     refreshData();
   };
 
+  const generateStockReport = () => {
+    relatorioService.gerarRelatorioEstoque(pecaService.listarTodas());
+  };
+
+  const generateCollaboratorReport = () => {
+    relatorioService.gerarRelatorioColaboradores(funcionarioService.listarTodos(), aeronaveService.listarTodas());
+  };
+
+  const previewReport = (codigoAero: string, cliente: string, data: string) => {
+    return relatorioService.visualizarRelatorioAeronave(codigoAero, cliente, data);
+  };
+
+  const previewStockReport = () => {
+    return relatorioService.visualizarRelatorioEstoque(pecaService.listarTodas());
+  };
+
+  const previewCollaboratorReport = () => {
+    return relatorioService.visualizarRelatorioColaboradores(funcionarioService.listarTodos(), aeronaveService.listarTodas());
+  };
+
   return (
     <DataContext.Provider value={{ 
       aircrafts, 
@@ -247,7 +272,12 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
       startStep,
       finishStep,
       addTestToAircraft,
-      generateReport
+      generateReport,
+      generateStockReport,
+      generateCollaboratorReport,
+      previewReport,
+      previewStockReport,
+      previewCollaboratorReport
     }}>
       {children}
     </DataContext.Provider>
