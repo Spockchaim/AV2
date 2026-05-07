@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Fluxo Detalhado de Ações - Aerocode</title>
+    <style>
+        :root {
+            --border: 2.5px solid #000;
+            --font: 'Courier New', Courier, monospace;
+        }
+        body { font-family: var(--font); background: #fdfdfd; padding: 40px; }
+        .page-doc { 
+            width: 1000px; 
+            margin: 0 auto; 
+            background: #fff; 
+            border: 3px solid #000; 
+            padding: 30px;
+        }
+        .title { font-size: 22px; font-weight: bold; border-bottom: 3px solid #000; margin-bottom: 30px; padding-bottom: 10px; text-align: center; }
+        
+        .section { margin-bottom: 40px; }
+        .page-header { background: #000; color: #fff; padding: 10px; font-weight: bold; font-size: 16px; margin-bottom: 15px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #000; padding: 12px; text-align: left; font-size: 12px; }
+        th { background: #eee; text-transform: uppercase; }
+        
+        .tag { font-weight: bold; color: #333; }
+        .btn-style { background: #eee; border: 1px solid #000; padding: 2px 5px; font-size: 10px; }
+        
+        .flow-note { font-size: 11px; font-style: italic; color: #666; margin-top: 10px; border-left: 3px solid #000; padding-left: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="page-doc">
+        <div class="title">DICIONÁRIO DE FLUXO E AÇÕES DO SISTEMA (SPA)</div>
+
+        <!-- 1. LOGIN -->
+        <div class="section">
+            <div class="page-header">TELA 01: LOGIN (PONTO DE ENTRADA)</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">ELEMENTO/FUNÇÃO</th>
+                        <th style="width: 25%;">ENTRADA (INPUT)</th>
+                        <th style="width: 50%;">RESULTADO / FLUXO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="btn-style">ENTRAR</span></td>
+                        <td>Usuário, Senha</td>
+                        <td>Valida credenciais no <b>AuthService</b>. Se correto, redireciona para a <b>Home</b>.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 2. HOME -->
+        <div class="section">
+            <div class="page-header">TELA 02: HOME (MENU PRINCIPAL)</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">ELEMENTO/FUNÇÃO</th>
+                        <th style="width: 25%;">INTERAÇÃO</th>
+                        <th style="width: 50%;">RESULTADO / FLUXO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tiles de Navegação</td>
+                        <td>Clique em qualquer Tile (ex: ✈️)</td>
+                        <td>Redireciona para o componente SPA correspondente no <b>Main Content</b>.</td>
+                    </tr>
+                    <tr>
+                        <td>Sidebar (Menu)</td>
+                        <td>Seleção de item</td>
+                        <td>Navegação lateral rápida entre módulos ativos.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="btn-style">LOGOUT</span></td>
+                        <td>Clique (Header)</td>
+                        <td>Encerra sessão no <b>AuthService</b> e retorna à tela de <b>Login</b>.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 3. AERONAVES -->
+        <div class="section">
+            <div class="page-header">TELA 03: GESTÃO DE AERONAVES</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">ELEMENTO/FUNÇÃO</th>
+                        <th style="width: 25%;">ENTRADA (INPUT)</th>
+                        <th style="width: 50%;">RESULTADO / FLUXO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Listagem</td>
+                        <td>N/A (Automático)</td>
+                        <td>Carrega todas as aeronaves via <b>AeronaveService.listarTodas()</b>.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="btn-style">SALVAR</span> (Cadastro)</td>
+                        <td>Cód, Modelo, Tipo</td>
+                        <td>Persiste nova aeronave no <b>AeronaveRepository</b>. Atualiza a lista acima.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 4. PEÇAS -->
+        <div class="section">
+            <div class="page-header">TELA 04: INVENTÁRIO DE PEÇAS</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">ELEMENTO/FUNÇÃO</th>
+                        <th style="width: 25%;">ENTRADA (INPUT)</th>
+                        <th style="width: 50%;">RESULTADO / FLUXO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Estoque Geral</td>
+                        <td>N/A (Automático)</td>
+                        <td>Carrega lista de peças via <b>PecaService.listarTodas()</b>.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="btn-style">VINCULAR</span></td>
+                        <td>Seleção Peça, Cód Aero</td>
+                        <td>Associa a peça física a uma unidade via <b>AeronaveService.adicionarPeca()</b>.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 5. PRODUÇÃO -->
+        <div class="section">
+            <div class="page-header">TELA 05: LINHA DE PRODUÇÃO (KANBAN)</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">ELEMENTO/FUNÇÃO</th>
+                        <th style="width: 25%;">INTERAÇÃO</th>
+                        <th style="width: 50%;">RESULTADO / FLUXO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Visualização Kanban</td>
+                        <td>N/A (Monitoramento)</td>
+                        <td>Exibe aeronaves divididas por <b>StatusEtapa</b> (Pendente/Execução/Concluído).</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="flow-note">Fluxo Lógico: O sistema impede o avanço de aeronaves (via ProducaoService) sem a conclusão da etapa anterior.</div>
+        </div>
+
+        <!-- 6. QUALIDADE -->
+        <div class="section">
+            <div class="page-header">TELA 06: CONTROLE DE QUALIDADE</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">ELEMENTO/FUNÇÃO</th>
+                        <th style="width: 25%;">ENTRADA (INPUT)</th>
+                        <th style="width: 50%;">RESULTADO / FLUXO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Histórico</td>
+                        <td>N/A (Automático)</td>
+                        <td>Lista resultados de <b>TipoTeste</b> para cada aeronave.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="btn-style">SALVAR</span> (Teste)</td>
+                        <td>Aero, Tipo, Resultado</td>
+                        <td>Registra aprovação/reprovação no <b>TesteService</b>. Essencial para o relatório final.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 7. RELATÓRIOS -->
+        <div class="section">
+            <div class="page-header">TELA 07: RELATÓRIOS</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">ELEMENTO/FUNÇÃO</th>
+                        <th style="width: 25%;">ENTRADA (INPUT)</th>
+                        <th style="width: 50%;">RESULTADO / FLUXO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="btn-style">GERAR ARQUIVO .TXT</span></td>
+                        <td>Aero, Nome Cliente</td>
+                        <td>Compila dados via <b>RelatorioService</b>. Exporta arquivo físico para a pasta /relatorios.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 8. EQUIPE -->
+        <div class="section">
+            <div class="page-header">TELA 08: GESTÃO DE EQUIPE</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">ELEMENTO/FUNÇÃO</th>
+                        <th style="width: 25%;">ENTRADA (INPUT)</th>
+                        <th style="width: 50%;">RESULTADO / FLUXO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Listagem Equipe</td>
+                        <td>N/A (Automático)</td>
+                        <td>Exibe todos os funcionários e seus níveis (<b>FuncionarioService</b>).</td>
+                    </tr>
+                    <tr>
+                        <td><span class="btn-style">CADASTRAR</span></td>
+                        <td>Dados Cadastrais</td>
+                        <td>Cria novo usuário com permissões específicas (Admin/Eng/Op).</td>
+                    </tr>
+                    <tr>
+                        <td><span class="btn-style">EDITAR COLABORADOR</span></td>
+                        <td>Seleção de ID</td>
+                        <td>Abre campos para modificação de dados de um funcionário existente.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>SPA Wireframe - Aerocode</title>
+    <style>
+        :root {
+            --border: 2px solid #000;
+            --font: 'Courier New', Courier, monospace;
+        }
+        body { font-family: var(--font); background: #eee; margin: 0; padding: 20px; }
+        
+        /* Simulação de Páginas no PDF */
+        .page {
+            width: 1000px;
+            height: 700px;
+            background: #fff;
+            border: 3px solid #000;
+            margin: 0 auto 50px auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            page-break-after: always;
+        }
+
+        /* Estrutura SPA */
+        .app-shell { display: flex; flex: 1; overflow: hidden; }
+        .sidebar { width: 180px; border-right: var(--border); padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .main-container { flex: 1; display: flex; flex-direction: column; }
+        .header { height: 50px; border-bottom: var(--border); padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
+        .content { flex: 1; padding: 20px; overflow: hidden; background: #fafafa; }
+
+        /* Hide scrollbars globally */
+        ::-webkit-scrollbar { display: none; }
+        * { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Componentes de Baixa Fidelidade */
+        .box { border: var(--border); background: #fff; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; }
+        .label { font-weight: bold; font-size: 14px; }
+        .sub-label { font-size: 10px; color: #666; display: block; }
+
+        /* Dashboard de Tiles (Home) */
+        .grid-nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; height: 100%; }
+        .nav-tile { height: 150px; cursor: pointer; display: flex; flex-direction: column; gap: 10px; }
+
+        /* Tabelas e Formulários */
+        .view-header { margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+        .data-list { border: var(--border); width: 100%; height: 300px; margin-bottom: 20px; }
+        .form-section { border: 1px dashed #000; padding: 15px; background: #fff; }
+
+        /* Login */
+        .login-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #fff; z-index: 100; }
+        .login-card { width: 350px; padding: 40px; border: var(--border); }
+
+        .active-menu { background: #000 !important; color: #fff !important; }
+
+        @media print {
+            body { background: none; padding: 0; }
+            .page { margin: 0; border: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PÁGINA 1: LOGIN -->
+    <div class="page">
+        <div class="login-overlay">
+            <div class="login-card">
+                <div class="label" style="font-size: 24px; margin-bottom: 30px;">AEROCODE LOGIN</div>
+                <div class="box" style="margin-bottom: 15px;">USUÁRIO</div>
+                <div class="box" style="margin-bottom: 30px;">SENHA</div>
+                <div class="box" style="background: #000; color: #fff;">ENTRAR</div>
+                <div class="sub-label" style="margin-top: 20px;">Níveis: Admin, Engenheiro, Operador</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PÁGINA 2: HOME (GRID NAVIGATION) -->
+    <div class="page">
+        <div class="app-shell">
+            <div class="sidebar">
+                <div class="label">AEROCODE</div>
+                <div class="box active-menu">HOME</div>
+                <div class="box">AERONAVES</div>
+                <div class="box">PEÇAS</div>
+                <div class="box">PRODUÇÃO</div>
+                <div class="box">QUALIDADE</div>
+                <div class="box">RELATÓRIOS</div>
+                <div class="box">EQUIPE</div>
+            </div>
+            <div class="main-container">
+                <div class="header">
+                    <div class="label">BEM-VINDO, [USUÁRIO]</div>
+                    <div class="box" style="width: 100px;">LOGOUT</div>
+                </div>
+                <div class="content">
+                    <div class="view-header"><div class="label">MENU PRINCIPAL</div></div>
+                    <div class="grid-nav">
+                        <div class="box nav-tile"><div class="label">✈️ AERONAVES</div><div class="sub-label">Gestão da Frota</div></div>
+                        <div class="box nav-tile"><div class="label">⚙️ PEÇAS</div><div class="sub-label">Inventário e Estoque</div></div>
+                        <div class="box nav-tile"><div class="label">🛠️ PRODUÇÃO</div><div class="sub-label">Etapas e Montagem</div></div>
+                        <div class="box nav-tile"><div class="label">🧪 QUALIDADE</div><div class="sub-label">Testes e Aprovação</div></div>
+                        <div class="box nav-tile"><div class="label">📊 RELATÓRIOS</div><div class="sub-label">Exportação TXT</div></div>
+                        <div class="box nav-tile"><div class="label">👥 EQUIPE</div><div class="sub-label">Recursos Humanos</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PÁGINA 3: GESTÃO DE AERONAVES -->
+    <div class="page">
+        <div class="app-shell">
+            <div class="sidebar">
+                <div class="label">AEROCODE</div>
+                <div class="box">HOME</div>
+                <div class="box active-menu">AERONAVES</div>
+                <div class="box">PEÇAS</div>
+                <div class="box">PRODUÇÃO</div>
+                <div class="box">QUALIDADE</div>
+                <div class="box">RELATÓRIOS</div>
+                <div class="box">EQUIPE</div>
+            </div>
+            <div class="main-container">
+                <div class="header">
+                    <div class="label">GERENCIAR AERONAVES</div>
+                </div>
+                <div class="content">
+                    <div class="data-list"><div class="label">LISTAGEM DE AERONAVES<br>(Código | Modelo | Tipo | Status)</div></div>
+                    <div class="form-section">
+                        <div class="label">NOVO CADASTRO</div>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <div class="box" style="flex:1;">CÓDIGO</div>
+                            <div class="box" style="flex:1;">MODELO</div>
+                            <div class="box" style="flex:1;">TIPO (ENUM)</div>
+                        </div>
+                        <div class="box" style="margin-top: 15px; width: 150px; align-self: flex-end;">SALVAR</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PÁGINA 4: GESTÃO DE PEÇAS -->
+    <div class="page">
+        <div class="app-shell">
+            <div class="sidebar">
+                <div class="label">AEROCODE</div>
+                <div class="box">HOME</div>
+                <div class="box">AERONAVES</div>
+                <div class="box active-menu">PEÇAS</div>
+                <div class="box">PRODUÇÃO</div>
+                <div class="box">QUALIDADE</div>
+                <div class="box">RELATÓRIOS</div>
+                <div class="box">EQUIPE</div>
+            </div>
+            <div class="main-container">
+                <div class="header">
+                    <div class="label">INVENTÁRIO DE PEÇAS</div>
+                </div>
+                <div class="content">
+                    <div class="data-list"><div class="label">ESTOQUE GERAL<br>(Nome | Fornecedor | Status)</div></div>
+                    <div class="form-section">
+                        <div class="label">VINCULAR PEÇA A AERONAVE</div>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <div class="box" style="flex:1;">SELECIONAR PEÇA</div>
+                            <div class="box" style="flex:1;">CÓDIGO AERONAVE</div>
+                        </div>
+                        <div class="box" style="margin-top: 15px; width: 150px;">VINCULAR</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PÁGINA 5: PRODUÇÃO E ETAPAS -->
+    <div class="page">
+        <div class="app-shell">
+            <div class="sidebar">
+                <div class="label">AEROCODE</div>
+                <div class="box">HOME</div>
+                <div class="box">AERONAVES</div>
+                <div class="box">PEÇAS</div>
+                <div class="box active-menu">PRODUÇÃO</div>
+                <div class="box">QUALIDADE</div>
+                <div class="box">RELATÓRIOS</div>
+                <div class="box">EQUIPE</div>
+            </div>
+            <div class="main-container">
+                <div class="header">
+                    <div class="label">LINHA DE PRODUÇÃO ATIVA</div>
+                </div>
+                <div class="content">
+                    <div style="display: flex; gap: 20px; height: 100%;">
+                        <div class="box" style="flex:1; flex-direction: column;">
+                            <div class="label">PENDENTES</div>
+                            <div class="box" style="width: 80%; margin-top: 10px;">AC-105</div>
+                        </div>
+                        <div class="box" style="flex:1; flex-direction: column;">
+                            <div class="label">EM EXECUÇÃO</div>
+                            <div class="box" style="width: 80%; margin-top: 10px;">AC-101 (Etapa: Motores)</div>
+                        </div>
+                        <div class="box" style="flex:1; flex-direction: column;">
+                            <div class="label">CONCLUÍDAS</div>
+                            <div class="box" style="width: 80%; margin-top: 10px;">AC-098</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PÁGINA 6: CONTROLE DE QUALIDADE -->
+    <div class="page">
+        <div class="app-shell">
+            <div class="sidebar">
+                <div class="label">AEROCODE</div>
+                <div class="box">HOME</div>
+                <div class="box">AERONAVES</div>
+                <div class="box">PEÇAS</div>
+                <div class="box">PRODUÇÃO</div>
+                <div class="box active-menu">QUALIDADE</div>
+                <div class="box">RELATÓRIOS</div>
+                <div class="box">EQUIPE</div>
+            </div>
+            <div class="main-container">
+                <div class="header">
+                    <div class="label">TESTES E INSPEÇÕES</div>
+                </div>
+                <div class="content">
+                    <div class="data-list"><div class="label">HISTÓRICO DE TESTES<br>(Aero | Tipo Teste | Resultado)</div></div>
+                    <div class="form-section">
+                        <div class="label">REGISTRAR RESULTADO</div>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <div class="box" style="flex:1;">AERONAVE</div>
+                            <div class="box" style="flex:1;">TIPO (Elet/Hidr/Aero)</div>
+                            <div class="box" style="flex:1;">RESULTADO</div>
+                        </div>
+                        <div class="box" style="margin-top: 15px; width: 150px;">SALVAR</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PÁGINA 7: RELATÓRIOS -->
+    <div class="page">
+        <div class="app-shell">
+            <div class="sidebar">
+                <div class="label">AEROCODE</div>
+                <div class="box">HOME</div>
+                <div class="box">AERONAVES</div>
+                <div class="box">PEÇAS</div>
+                <div class="box">PRODUÇÃO</div>
+                <div class="box">QUALIDADE</div>
+                <div class="box active-menu">RELATÓRIOS</div>
+                <div class="box">EQUIPE</div>
+            </div>
+            <div class="main-container">
+                <div class="header">
+                    <div class="label">GERADOR DE DOCUMENTOS</div>
+                </div>
+                <div class="content">
+                    <div class="box" style="height: 300px; flex-direction: column; gap: 20px;">
+                        <div class="label">CONFIGURAR RELATÓRIO FINAL</div>
+                        <div class="box" style="width: 300px;">SELECIONAR AERONAVE FINALIZADA</div>
+                        <div class="box" style="width: 300px;">NOME DO CLIENTE</div>
+                        <div class="box" style="width: 300px; background: #000; color: #fff;">GERAR ARQUIVO .TXT</div>
+                    </div>
+                    <div class="sub-label" style="text-align:center; margin-top: 20px;">O relatório consolida Peças, Etapas e Testes de Qualidade.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PÁGINA 8: GESTÃO DE EQUIPE (ADMIN) -->
+    <div class="page">
+        <div class="app-shell">
+            <div class="sidebar">
+                <div class="label">AEROCODE</div>
+                <div class="box">HOME</div>
+                <div class="box">AERONAVES</div>
+                <div class="box">PEÇAS</div>
+                <div class="box">PRODUÇÃO</div>
+                <div class="box">QUALIDADE</div>
+                <div class="box">RELATÓRIOS</div>
+                <div class="box active-menu">EQUIPE</div>
+            </div>
+            <div class="main-container">
+                <div class="header">
+                    <div class="label">GERENCIAR FUNCIONÁRIOS</div>
+                </div>
+                <div class="content">
+                    <div class="data-list"><div class="label">EQUIPE CADASTRADA<br>(ID | Nome | Nível Acesso)</div></div>
+                    <div class="form-section">
+                        <div class="label">ADICIONAR COLABORADOR</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <div class="box">NOME</div>
+                            <div class="box">USUÁRIO</div>
+                            <div class="box">SENHA</div>
+                            <div class="box">PERMISSÃO</div>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <div class="box" style="width: 150px;">CADASTRAR</div>
+                            <div class="box" style="width: 150px;">EDITAR COLABORADOR</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
