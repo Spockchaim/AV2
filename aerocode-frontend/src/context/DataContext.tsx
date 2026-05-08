@@ -94,17 +94,49 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
   const seedInitialData = () => {
     if (aeronaveService.listarTodas().length === 0) {
-      aeronaveService.cadastrarAeronave(new Aeronave("101", "Aerorinthians", TipoAeronave.COMERCIAL, 12, 999));
-      testeService.realizarTeste("101", TipoTeste.ELETRICO, ResultadoTeste.APROVADO);
+      // Aeronaves
+      aeronaveService.cadastrarAeronave(new Aeronave("PT-ABC", "Airbus A320 Neo", TipoAeronave.COMERCIAL, 180, 6500));
+      aeronaveService.cadastrarAeronave(new Aeronave("FAB-01", "Embraer C-390 Millennium", TipoAeronave.MILITAR, 80, 5800));
+      aeronaveService.cadastrarAeronave(new Aeronave("G-SKY", "Boeing 737 Max", TipoAeronave.COMERCIAL, 200, 6300));
+
+      // Testes iniciais
+      testeService.realizarTeste("PT-ABC", TipoTeste.ELETRICO, ResultadoTeste.APROVADO);
+      testeService.realizarTeste("FAB-01", TipoTeste.AERODINAMICO, ResultadoTeste.APROVADO);
+      
+      // Simular algumas etapas de produção
+      producaoService.iniciarNovaEtapa("PT-ABC", "Montagem de Fuselagem", "15 dias");
+      producaoService.iniciarNovaEtapa("PT-ABC", "Instalação de Motores", "10 dias");
+      producaoService.iniciarNovaEtapa("FAB-01", "Pintura Militar Camuflada", "7 dias");
     }
+
     if (pecaService.listarTodas().length === 0) {
-      pecaService.cadastrarPeca(new Peca("Helice", TipoPeca.NACIONAL, "Embrac", StatusPeca.EM_PRODUCAO));
+      pecaService.cadastrarPeca(new Peca("Turbina Rolls-Royce Trent", TipoPeca.IMPORTADA, "Rolls-Royce", StatusPeca.PRONTA));
+      pecaService.cadastrarPeca(new Peca("Painel de Aviônicos G5000", TipoPeca.IMPORTADA, "Garmin", StatusPeca.EM_TRANSPORTE));
+      pecaService.cadastrarPeca(new Peca("Conjunto de Flaps", TipoPeca.NACIONAL, "Embraer S.A.", StatusPeca.PRONTA));
+      pecaService.cadastrarPeca(new Peca("Trem de Pouso Reforçado", TipoPeca.IMPORTADA, "Safran", StatusPeca.EM_PRODUCAO));
+      pecaService.cadastrarPeca(new Peca("Assentos Executivos", TipoPeca.NACIONAL, "FlexForm", StatusPeca.PRONTA));
     }
+
     if (funcionarioService.listarTodos().length === 0) {
-      funcionarioService.cadastrarFuncionario(new Funcionario("1", "Administrador Padrao", "000", "Sede", "adm", "adm", NivelPermissao.ADMINISTRADOR));
-      funcionarioService.cadastrarFuncionario(new Funcionario("2", "Engenheiro Padrao", "111", "Fabrica", "eng", "eng", NivelPermissao.ENGENHEIRO));
-      funcionarioService.cadastrarFuncionario(new Funcionario("3", "Operador Padrao", "222", "Linha Montagem", "op", "op", NivelPermissao.OPERADOR));
-      funcionarioService.cadastrarFuncionario(new Funcionario("1001", "Corinthisvaldo", "", "", "corinthians", "123", NivelPermissao.OPERADOR));
+      funcionarioService.cadastrarFuncionario(new Funcionario("1", "Corinthiano", "11 99999-9999", "Sede Central", "adm", "adm", NivelPermissao.ADMINISTRADOR));
+      funcionarioService.cadastrarFuncionario(new Funcionario("2", "Engª Mariana Lima", "11 88888-8888", "Hangar de Engenharia", "eng", "eng", NivelPermissao.ENGENHEIRO));
+      funcionarioService.cadastrarFuncionario(new Funcionario("3", "Roberto Silva (Operador)", "11 77777-7777", "Linha de Montagem A", "op", "op", NivelPermissao.OPERADOR));
+      funcionarioService.cadastrarFuncionario(new Funcionario("4", "Carlos Santos", "11 66666-6666", "Qualidade", "carlos", "123", NivelPermissao.ENGENHEIRO));
+      funcionarioService.cadastrarFuncionario(new Funcionario("5", "Ana Oliveira", "11 55555-5555", "Hangar 2", "ana", "123", NivelPermissao.OPERADOR));
+      
+      // Vincular funcionários às etapas criadas
+      const rSilva = funcionarioService.buscarPorId("3");
+      const aOliveira = funcionarioService.buscarPorId("5");
+      if (rSilva) producaoService.vincularResponsavel("PT-ABC", "Montagem de Fuselagem", rSilva);
+      if (aOliveira) producaoService.vincularResponsavel("PT-ABC", "Instalação de Motores", aOliveira);
+    }
+    
+    // Vincular algumas peças às aeronaves (Rastreabilidade)
+    if (aeronaveService.listarTodas().length > 0 && pecaService.listarTodas().length > 0) {
+        const turbine = pecaService.buscarPorNome("Turbina Rolls-Royce Trent");
+        const flaps = pecaService.buscarPorNome("Conjunto de Flaps");
+        if (turbine) aeronaveService.adicionarPeca("PT-ABC", turbine);
+        if (flaps) aeronaveService.adicionarPeca("FAB-01", flaps);
     }
   };
 
@@ -220,8 +252,12 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const finishStep = (codigoAero: string, nomeEtapa: string) => {
-    producaoService.finalizarEtapa(codigoAero, nomeEtapa);
-    refreshData();
+    try {
+      producaoService.finalizarEtapa(codigoAero, nomeEtapa);
+      refreshData();
+    } catch (error: any) {
+      alert(error.message);
+    }
   };
 
   const addTestToAircraft = (codigoAero: string, tipo: TipoTeste, resultado: ResultadoTeste) => {

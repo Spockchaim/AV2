@@ -20,18 +20,12 @@ export class ProducaoService {
         if (!aeronave) return;
 
         const etapas = aeronave.getEtapas();
-        const index = etapas.findIndex(e => e.getNome() === nomeEtapa);
+        const etapa = etapas.find(e => e.getNome() === nomeEtapa);
         
-        if (index === -1) return;
+        if (!etapa) return;
 
-        // Validação de Ordem Lógica: Todas as etapas anteriores devem estar CONCLUIDA
-        for (let i = 0; i < index; i++) {
-            if (etapas[i].getStatus() !== StatusEtapa.CONCLUIDA) {
-                throw new Error(`Não é possível iniciar "${nomeEtapa}": a etapa anterior "${etapas[i].getNome()}" ainda não foi concluída.`);
-            }
-        }
-
-        etapas[index].iniciar();
+        // Agora permitimos iniciar qualquer etapa, mesmo que as anteriores estejam em andamento
+        etapa.iniciar();
         this.aeronaveService.atualizarEtapas(codigoAeronave);
     }
 
@@ -39,8 +33,21 @@ export class ProducaoService {
         const aeronave = this.aeronaveService.buscarPorCodigo(codigoAeronave);
         if (!aeronave) return;
 
-        const etapa = aeronave.getEtapas().find(e => e.getNome() === nomeEtapa && e.getStatus() === StatusEtapa.EM_ANDAMENTO);
-        if (etapa) {
+        const etapas = aeronave.getEtapas();
+        const index = etapas.findIndex(e => e.getNome() === nomeEtapa);
+        
+        if (index === -1) return;
+
+        // Validação de Ordem Lógica de Entrega: 
+        // Só pode finalizar se todas as etapas inseridas ANTES (index menor) estiverem CONCLUÍDAS
+        for (let i = 0; i < index; i++) {
+            if (etapas[i].getStatus() !== StatusEtapa.CONCLUIDA) {
+                throw new Error(`Não é possível finalizar "${nomeEtapa}": a etapa anterior "${etapas[i].getNome()}" precisa ser finalizada primeiro.`);
+            }
+        }
+
+        const etapa = etapas[index];
+        if (etapa.getStatus() === StatusEtapa.EM_ANDAMENTO) {
             etapa.finalizar();
             this.aeronaveService.atualizarEtapas(codigoAeronave);
         }
