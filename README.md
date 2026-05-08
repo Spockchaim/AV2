@@ -5,6 +5,7 @@
 > **Hospedagem oficial:** [https://av-2-chaim.vercel.app](https://av-2-chaim.vercel.app)
 
 ## 📌 Índice
+- [🔄 Continuidade (AV1)](#-continuidade-av1)
 - [🛠️ Tecnologias e Arquitetura](#️-tecnologias-e-arquitetura)
 - [🚀 Funcionalidades Principais](#-funcionalidades-principais)
 - [📖 Documentação Adicional](#-documentação-adicional)
@@ -12,6 +13,14 @@
 - [📦 Como Executar o Projeto](#-como-executar-o-projeto)
 - [🌐 Deploy na Vercel](#-deploy-na-vercel)
 - [👨‍💻 Desenvolvedor](#-desenvolvedor)
+
+---
+
+## 🔄 Continuidade (AV1)
+
+Este projeto representa a **Avaliação Individual 2 (AV2)** e é a evolução direta da **AV1**. Na etapa anterior, foram estabelecidas as bases da lógica de negócio e modelos em uma interface CLI. Nesta versão, o sistema foi transformado em uma interface gráfica completa (SPA).
+
+- **Repositório da AV1:** [https://github.com/Spockchaim/av1](https://github.com/Spockchaim/av1)
 
 ---
 
