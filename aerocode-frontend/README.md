@@ -4,7 +4,14 @@
 > 
 > **Hospedagem oficial:** [https://av-2-chaim.vercel.app](https://av-2-chaim.vercel.app)
 
-O **Aerocode V2.0** é a evolução do sistema de gestão de aeronaves, migrando de uma interface de linha de comando (CLI) para uma **Single Page Application (SPA)** moderna e intuitiva. O projeto foca no controle rigoroso da linha de montagem, rastreabilidade de componentes e conformidade técnica para grandes corporações do setor aeroespacial.
+## 📌 Índice
+- [🛠️ Tecnologias e Arquitetura](#️-tecnologias-e-arquitetura)
+- [🚀 Funcionalidades Principais](#-funcionalidades-principais)
+- [📖 Documentação Adicional](#-documentação-adicional)
+- [🔐 Níveis de Acesso e Logins](#-níveis-de-acesso-e-logins)
+- [📦 Como Executar o Projeto](#-como-executar-o-projeto)
+- [🌐 Deploy na Vercel](#-deploy-na-vercel)
+- [👨‍💻 Desenvolvedor](#-desenvolvedor)
 
 ---
 
@@ -114,4 +121,4 @@ O projeto está configurado para deploy contínuo na Vercel. O arquivo `vercel.j
 - **Data:** Maio de 2026
 
 ---
-© 2026 Aerocode Sistemas Aeroespaciais | Documentação de Avaliação 2
+© 2026 Aerocode Sistemas Aeroespaciais por Pedro Chaim | Documentação de Avaliação 2
