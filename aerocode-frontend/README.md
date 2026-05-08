@@ -79,7 +79,7 @@ O sistema implementa uma hierarquia rigorosa de permissões. Para testar o prot�
    ```
 2. Entre na pasta do front-end:
    ```bash
-   cd aerocode-frontend
+   cd AV2/aerocode-frontend/
    ```
 3. Instale as dependências:
    ```bash
