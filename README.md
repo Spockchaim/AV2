@@ -46,15 +46,23 @@ Gerador de documentos oficiais em formato `.txt`:
 
 ---
 
-## 🔐 Níveis de Acesso
+## 📖 Documentação Adicional
 
-O sistema implementa uma hierarquia rigorosa de permissões:
+Além deste README, o projeto conta com um **Manual do Usuário** detalhado, contendo o mapa mental da arquitetura, fluxos de navegação e guia de processos.
 
-| Papel | Permissões |
-| :--- | :--- |
-| **Administrador** | Acesso total a todos os módulos e gestão da equipe (RH). |
-| **Engenheiro** | Gestão técnica, peças, qualidade e relatórios. |
-| **Operador** | Acompanhamento da linha de produção e monitoramento do hangar. |
+- **Arquivo:** `Documentos/Manual_Usuario.pdf`
+
+---
+
+## 🔐 Níveis de Acesso e Logins
+
+O sistema implementa uma hierarquia rigorosa de permissões. Para testar o protótipo, utilize as credenciais padrão abaixo:
+
+| Papel | Usuário | Senha | Permissões |
+| :--- | :--- | :--- | :--- |
+| **Administrador** | `adm` | `adm` | Acesso total e gestão da equipe (RH). |
+| **Engenheiro** | `eng` | `eng` | Gestão técnica, peças, qualidade e relatórios. |
+| **Operador** | `op` | `op` | Acompanhamento da linha de produção (Hangar). |
 
 ---
 
@@ -102,6 +110,7 @@ O projeto está configurado para deploy contínuo na Vercel. O arquivo `vercel.j
 - **Pedro Chaim** - [GitHub](https://github.com/Spockchaim)
 - **Instituição:** FATEC
 - **Disciplina:** Técnicas de Programação
+- **Professor:** Gerson Penha
 - **Data:** Maio de 2026
 
 ---
